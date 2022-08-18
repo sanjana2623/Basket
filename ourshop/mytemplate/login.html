@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>E-commerce</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+    body{
+      font-size: 18px;
+    }
+    #maindiv{
+      width: 94%;
+      max-width: 450px;
+      margin-right: auto;
+      margin-left: auto;
+      padding: 0 10px 15px 10px;
+    }
+      div #errormsz{
+    color: #b30000;
+    width: 94%;
+    max-width: 450px;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 0 10px 15px 5px;
+  }
+
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#">E-commerce</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li ><a href="/">Home</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        {% if user.is_authenticated %}
+        <li><a href="/logout/"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+        {% else %}
+        <li><a href="/register/"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+        <li class="active"><a href="/login/"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+  
+<div class="container">
+
+<div class="well" id="maindiv">
+<h3>Login</h3>
+  <form action="/login/" method="POST"> 
+  {% csrf_token %}
+
+  <div class="form-group">
+  <label>Phone Number: </label>
+  <input placeholder="phone number" name="phone_login" 
+    minlength="10" maxlength="10" 
+  required class="form-control">
+  </div>
+
+  <div class="form-group">
+  <label>Password: </label> 
+  <input type="password" placeholder="Password" name="pswd_login"  maxlength="30" required class="form-control">
+  </div>
+
+<div class="radio">
+  <p>Login as:</p>
+  <label><input type="radio" name="myrole" value="b" required> Buyer </label> <br>
+  <label><input type="radio" name="myrole" value="s" required> Seller </label><br>
+  <label><input type="radio" name="myrole" value="d" required> Delivery Person </label> 
+  <label><input type="radio" name="myrole" value="a" required> Admin </label> 
+  <label><input type="radio" name="myrole" value="o" required> Owner </label> 
+</div>
+
+  <div class="form-group">
+  <button type="submit" class="btn btn-success" >Login</button>
+  </div>
+
+  <div id="errormsz">
+    {% for message in messages %}
+      <p>{{message}}</p>
+    {% endfor %}
+  </div>
+
+  </form>
+
+
+</div>
+
+
+</div>
+</body>
+</html>

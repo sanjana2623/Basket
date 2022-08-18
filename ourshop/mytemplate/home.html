@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Basket</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<style>
+  body{
+    font-size: 18px;
+  }
+  .tiles_div{
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .card{
+    text-align: center;
+    height: 200px;
+    width:  230px;
+    max-width: 350px; 
+    border-radius: 10px;
+    border: 2px solid grey;
+    margin: 4px;
+    padding: 5px;
+    flex-grow: 1;
+    overflow: hidden;
+    line-height: 1.3;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+  .card:hover{
+    background-color: #f2f2f2;
+    box-shadow: 4px 4px 7px grey;
+  }
+  .card img{
+    height: 140px;
+  }
+    div #errormsz{
+    color: #b30000;
+    width: 94%;
+    max-width: 450px;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 0 10px 15px 5px;
+  }
+
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#">Basket</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+          <li class="active"><a href="/">Home</a></li>
+        {% if user.username|slice:"10:11" == 'b' %}
+          <li><a href="/cart/">Cart</a></li>
+          <li><a href="/wishlist/">Wishlist</a></li>
+          <li><a href="/history/order">Order History</a></li>
+        {% elif user.username|slice:"10:11" == 's' %}
+          <li><a href="/sell/">Sell</a></li>
+          <li><a href="/history/order">Order</a></li>
+        {% elif user.username|slice:"10:11" == 'd' %}
+          <li><a href="/history/order">Orders</a></li>
+        {% elif user.username|slice:"10:11" == 'o' %}
+          <li><a href="/allocate_area/">Allocate Areas</a></li>
+        {% endif %}
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        {% if user.is_authenticated %}
+        <li><a href="/profile/"><span class="glyphicon glyphicon-user"></span> {{user.first_name}}</a></li>
+        <li><a href="/logout/"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+        {% else %}
+        <li><a href="/register/"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+        <li><a href="/login/"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+  
+<div class="container">
+  <div id="errormsz">
+    {% for message in messages %}
+      <p>{{message}}</p>
+    {% endfor %}
+  </div>
+  <div class="tiles_div">
+    {% for x in product_list %}
+    <div class="card">
+      <a href="product/{{x.product_id}}/" > <img src="{{x.url}}"> </a> <br>
+      <span>{{x.product_name|slice:"0:25"}} <br>  <b> &#8377;{{x.price}}</b> </span>
+    </div>
+    {% endfor %}
+  </div>
+
+<br><br><br>
+</div>
+</body>
+</html>
